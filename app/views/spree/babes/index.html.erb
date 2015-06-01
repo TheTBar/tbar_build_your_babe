@@ -1,0 +1,8 @@
+<h1>hello world. THIS MEANS YOU</h1>
+<%= link_to Spree.t('see the goods'), "#{babes_items_path}?vixen_value_greater_than=5"%>
+
+<%= form_tag(babes_items_path) do %>
+  <%= label_tag(:vixen_value_greater_than, "Vixen Value Greater Than:") %>
+  <%= text_field_tag(:vixen_value_greater_than)%>
+  <%= submit_tag('see the goods')%>
+<% end %>

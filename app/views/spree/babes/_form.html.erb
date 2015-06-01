@@ -1,0 +1,40 @@
+<% puts "do we have the babe: #{@babe}" %>
+<%= form_for @babe do |f| %>
+  <%= f.field_container :body_type, class:['form-group'] do %>
+    <%= f.label :body_type, Spree.t(:body_type) %><p>
+    <%= f.collection_select :body_type_id, Spree::BodyType.all, :id, :name %><p></p>
+  <% end %>
+
+  <%= f.field_container :name, class:['form-group'] do %>
+    <%= f.label :name, Spree.t(:name) %><p>
+    <%= f.text_field :name%>
+  <% end %>
+
+  <%= f.field_container :height, class:['form-group'] do %>
+    <%= f.label :height, Spree.t(:height) %><p>
+    <%= f.text_field :height%>
+  <% end %>
+
+  <%= f.field_container :band, class:['form-group'] do %>
+    <%= f.label :band, Spree.t(:band) %><p>
+    <%= f.text_field :band%>
+  <% end %>
+
+  <%= f.field_container :cup, class:['form-group'] do %>
+    <%= f.label :cup, Spree.t(:cup) %><p>
+    <%= f.text_field :cup%>
+  <% end %>
+
+  <%= f.field_container :bottoms, class:['form-group'] do %>
+    <%= f.label :bottoms, Spree.t(:bottoms) %><p>
+    <%= f.text_field :bottoms%>
+  <% end %>
+
+  vixen<%= f.text_field :vixen_value %>
+  romantic<%= f.text_field :romantic_value %>
+  flirt<%= f.text_field :flirt_value %>
+  sophisticate<%= f.text_field :sophisticate_value %>
+  <p></p>
+  <%= f.submit "Show me the goods" %>
+
+<% end %>

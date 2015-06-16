@@ -3,13 +3,13 @@ Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_build_your_babe'
   s.version     = '3.0.1'
-  s.summary     = 'TODO: Add gem summary here'
-  s.description = 'TODO: Add (optional) gem description here'
+  s.summary     = 'The Secret Sauce For TBar'
+  s.description = 'You know what it is, you know what you want'
   s.required_ruby_version = '>= 2.0.0'
 
-  # s.author    = 'You'
-  # s.email     = 'you@example.com'
-  # s.homepage  = 'http://www.spreecommerce.com'
+  s.author    = 'Adam Rosenthal'
+  s.email     = 'adam@thetbar.com'
+  s.homepage  = 'http://www.thetbar.com'
 
   #s.files       = `git ls-files`.split("\n")
   #s.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")

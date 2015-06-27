@@ -15,7 +15,7 @@ module Spree
       respond_to do |format|
         if @babe.save
           puts "the babe was saved! id: #{@babe.id}"
-          format.html {redirect_to her_items_path(@babe)}
+          format.html {redirect_to taxons_package_list_path(@babe)}
         else
           format.html { render :new }
         end

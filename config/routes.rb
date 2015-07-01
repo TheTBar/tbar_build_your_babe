@@ -6,10 +6,6 @@ Spree::Core::Engine.routes.draw do
   resources :babes
 
   get '/build_your_babe' => 'babes#new'
-  get '/her_items/:id' => "home#my_babes_items" , as: 'her_items'
-  #get '/my_babes_items' => "home#my_babes_items"
-  get "/babes_items" => "home#babes_items"
-  post "/babes_items" => "home#babes_items"
-
+  get '/my_babes_package_list/:id' => 'taxons#my_babes_package_list', as: 'my_babes_items'
 
 end

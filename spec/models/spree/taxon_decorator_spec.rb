@@ -77,13 +77,13 @@ describe Spree::Taxon, :type => :model do
       build_option_type_with_values("number sizes", %w(1 2 3 4))
     end
 
-    let(:product1) { create(:product, name: 'product1', vixen_value: 5, flirt_value: 4, sophisticate_value: 3, romantic_value:1, option_values_hash: {bra_option_type.id.to_s => bra_option_type.option_value_ids}, taxons: [taxon1]) }
-    let(:product1b) { create(:product, name: 'product1b', vixen_value: 5, flirt_value: 4, sophisticate_value: 3, romantic_value:1, option_values_hash: {bottom_option_type.id.to_s => bottom_option_type.option_value_ids}, taxons: [taxon1]) }
-    let(:product2) { create(:product, name: 'product2', vixen_value: 5, flirt_value: 4, sophisticate_value: 3, romantic_value:1, option_values_hash: {bra_option_type.id.to_s => bra_option_type.option_value_ids}, taxons: [taxon2]) }
-    let(:product2b) { create(:product, name: 'product2b', vixen_value: 5, flirt_value: 4, sophisticate_value: 3, romantic_value:1, option_values_hash: {bottom_option_type.id.to_s => bottom_option_type.option_value_ids}, taxons: [taxon2]) }
-    let(:product3) { create(:product, name: 'product3', vixen_value: 5, flirt_value: 4, sophisticate_value: 3, romantic_value:1, option_values_hash: {bra_option_type.id.to_s => bra_option_type.option_value_ids}, taxons: [taxon3]) }
-    let(:product3b) { create(:product, name: 'product3b', vixen_value: 5, flirt_value: 4, sophisticate_value: 3, romantic_value:1, option_values_hash: {bottom_option_type.id.to_s => bottom_option_type.option_value_ids}, taxons: [taxon3]) }
-    let(:product4) { create(:product, name: 'product4', vixen_value: 5, flirt_value: 4, sophisticate_value: 3, romantic_value:1, option_values_hash: {number_size_option_type.id.to_s => number_size_option_type.option_value_ids}, taxons: [taxon4]) }
+    let(:product1) { create(:product, name: 'product1', vixen_value: 5, flirt_value: 3, sophisticate_value: 1, romantic_value:1, option_values_hash: {bra_option_type.id.to_s => bra_option_type.option_value_ids}, taxons: [taxon1]) }
+    let(:product1b) { create(:product, name: 'product1b', vixen_value: 5, flirt_value: 3, sophisticate_value: 1, romantic_value:1, option_values_hash: {bottom_option_type.id.to_s => bottom_option_type.option_value_ids}, taxons: [taxon1]) }
+    let(:product2) { create(:product, name: 'product2', vixen_value: 5, flirt_value: 2, sophisticate_value: 2, romantic_value:1, option_values_hash: {bra_option_type.id.to_s => bra_option_type.option_value_ids}, taxons: [taxon2]) }
+    let(:product2b) { create(:product, name: 'product2b', vixen_value: 5, flirt_value: 2, sophisticate_value: 2, romantic_value:1, option_values_hash: {bottom_option_type.id.to_s => bottom_option_type.option_value_ids}, taxons: [taxon2]) }
+    let(:product3) { create(:product, name: 'product3', vixen_value: 5, flirt_value: 4, sophisticate_value: 3, romantic_value:2, option_values_hash: {bra_option_type.id.to_s => bra_option_type.option_value_ids}, taxons: [taxon3]) }
+    let(:product3b) { create(:product, name: 'product3b', vixen_value: 5, flirt_value: 4, sophisticate_value: 3, romantic_value:2, option_values_hash: {bottom_option_type.id.to_s => bottom_option_type.option_value_ids}, taxons: [taxon3]) }
+    let(:product4) { create(:product, name: 'product4', vixen_value: 5, flirt_value: 4, sophisticate_value: 4, romantic_value:1, option_values_hash: {number_size_option_type.id.to_s => number_size_option_type.option_value_ids}, taxons: [taxon4]) }
 
     it "should have created variants and sets" do
       expect(product1.variants.length).to eq(6)
@@ -93,6 +93,64 @@ describe Spree::Taxon, :type => :model do
       expect(taxon1.products.count).to eq 2
       expect(taxon4.products.count).to eq 1
     end
+
+    it "should not have any stock yet" do
+      expect(product1.total_on_hand).to eq 0
+    end
+
+    it "should know if it has stock on hand for a specific size" do
+      product1.stock_items.second.set_count_on_hand 1
+      product1.stock_items.third.set_count_on_hand 2
+      product1.stock_items[4].set_count_on_hand 4
+
+      expect(product1.does_product_have_stock_on_hand_for_option_value?("34a")).to eq true
+      expect(product1.does_product_have_stock_on_hand_for_option_value?("36c")).to eq false
+    end
+
+    context "full compliment" do
+
+      before do
+        products = [product1,product1b,product2,product2b,product3,product3b,product4]
+      end
+
+      it "should return all the sets matching babes vixen value ordered from high to low sophisticate value " do
+        my_babe = create(:babe, name: 'my babe 1', vixen_value: 5, flirt_value: 2, sophisticate_value: 3, romantic_value:1)
+        @taxons = Spree::Taxon.get_babes_package_list(my_babe)
+        expect(@taxons.count).to eq 4
+        expect(@taxons[0].name).to eq 'package4'
+        expect(@taxons[1].name).to eq 'package3'
+        expect(@taxons[2].name).to eq 'package2'
+        expect(@taxons[3].name).to eq 'package1'
+      end
+
+      it "should return all sets matching babes flirt value ordered from high to low romantic value" do
+        my_babe = create(:babe, name: 'my babe', vixen_value: 1, flirt_value: 4, sophisticate_value: 2, romantic_value:3)
+        @taxons = Spree::Taxon.get_babes_package_list(my_babe)
+        expect(@taxons.count).to eq 2
+        expect(@taxons[0].name).to eq 'package3'
+        expect(@taxons[1].name).to eq 'package4'
+      end
+
+      it "should only return sets that have product availability in the babes size" do
+        product1.stock_items.second.set_count_on_hand 1
+        product1b.stock_items.second.set_count_on_hand 1
+        product2b.stock_items.second.set_count_on_hand 1
+        product3.stock_items.second.set_count_on_hand 1
+        product3b.stock_items.second.set_count_on_hand 1
+        # puts "product1: " + product1.product_count_on_hand_hash_by_option_value_name.inspect
+        # puts "product1b: " + product1b.product_count_on_hand_hash_by_option_value_name.inspect
+        # puts "product3: " + product3.product_count_on_hand_hash_by_option_value_name.inspect
+        # puts "product3b: " + product3b.product_count_on_hand_hash_by_option_value_name.inspect
+        my_babe = create(:babe, name: 'my babe 1', band: 34, cup: 'a', bottoms: 'small', vixen_value: 5, flirt_value: 2, sophisticate_value: 3, romantic_value:1)
+        @taxons = Spree::Taxon.get_babes_available_package_list(my_babe)
+        expect(@taxons.count).to eq 2
+        expect(@taxons[0].name).to eq 'package3'
+        expect(@taxons[1].name).to eq 'package1'
+
+      end
+
+    end
+
 
   end
 

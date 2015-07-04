@@ -15,5 +15,9 @@ module Spree
       personality.sort_by {|_key, value| value}.reverse.first 2
     end
 
+    def bra_size
+      "#{self.band}#{self.cup}"
+    end
+
   end
 end

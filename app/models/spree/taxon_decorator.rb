@@ -12,12 +12,12 @@ module Spree
 
     def self.get_babes_available_package_list(babe)
 
-    # perhaps could use this to get all products and then see if the current product exists in that size.  would be far less queries
+      # perhaps could use this to get all products and then see if the current product exists in that size.  would be far less queries
       # if performance is bad the other way may have to invoke this.
-    # Spree::Product.joins(:variants_including_master => :option_values)
-    #   .where('spree_option_values.presentation = ? AND
-    #       spree_option_values.option_type_id = ?', 'XL',
-    #          Spree::OptionType.find_by_name('tshirt-size').id)
+      # Spree::Product.joins(:variants_including_master => :option_values)
+      #   .where('spree_option_values.presentation = ? AND
+      #       spree_option_values.option_type_id = ?', 'XL',
+      #          Spree::OptionType.find_by_name('tshirt-size').id)
 
       available_taxons = []
       get_babes_package_list(babe).each do |taxon|

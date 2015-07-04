@@ -12,6 +12,7 @@ FactoryGirl.define do
     band 34
     cup 'B'
     bottoms 'M'
+    number_size '2'
     vixen_value 5
     flirt_value 4
     sophisticate_value 3

@@ -66,7 +66,7 @@ describe Spree::Taxon, :type => :model do
     end
 
     let(:bottom_option_type) do
-      build_option_type_with_values("bottom sizes", %w(Small Medium Large))
+      build_option_type_with_values("named sizes", %w(Small Medium Large))
     end
 
     let(:bra_option_type) do

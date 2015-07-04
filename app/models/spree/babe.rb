@@ -16,8 +16,17 @@ module Spree
     end
 
     def bra_size
-      "#{self.band}#{self.cup}"
+      "#{self.band}#{self.cup}".downcase
     end
 
+    def size_value_for_size_option_type_name(size_type_name)
+      if size_type_name.downcase == 'named sizes'
+        return self.bottoms
+      elsif size_type_name.downcase == 'bra sizes'
+        return self.bra_size
+      elsif size_type_name.downcase == 'number sizes'
+        return self.number_size
+      end
+    end
   end
 end

@@ -7,6 +7,16 @@ module Spree
       Spree::Taxonomy.where(id: taxonomy_ids).update_all(updated_at: Time.current)
     end
 
+    def product_size_type
+      # returns the size type of this product (named sizes, bra sizes, number sizes)
+      self.option_types.each do |ot|
+        if ot.presentation.downcase == 'size'
+          return ot.name
+        end
+      end
+      return nil
+    end
+
     def does_product_have_stock_on_hand_for_option_value?(name)
       self.stock_items.each do |stock_item|
         if !stock_item.variant.is_master?

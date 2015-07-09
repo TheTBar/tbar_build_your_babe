@@ -1,4 +1,3 @@
-<% puts "do we have the babe: #{@babe}" %>
 <%= form_for @babe do |f| %>
   <%= f.field_container :body_type, class:['form-group'] do %>
     <%= f.label :body_type, Spree.t(:body_type) %><p>
@@ -27,13 +26,18 @@
 
   <%= f.field_container :bottoms, class:['form-group'] do %>
     <%= f.label :bottoms, Spree.t(:bottoms) %><p>
-    <%= f.text_field :bottoms%>
+  <%= f.text_field :bottoms%>
   <% end %>
 
-  vixen<%= f.text_field :vixen_value %>
-  romantic<%= f.text_field :romantic_value %>
-  flirt<%= f.text_field :flirt_value %>
-  sophisticate<%= f.text_field :sophisticate_value %>
+  <%= f.field_container :number_size, class:['form-group'] do %>
+    <%= f.label :number_size, Spree.t(:number_size) %><p>
+  <%= f.text_field :number_size%>
+  <% end %>
+
+  vixen<%= f.text_field :vixen_value %><br>
+  romantic<%= f.text_field :romantic_value %><br>
+  flirt<%= f.text_field :flirt_value %><br>
+  sophisticate<%= f.text_field :sophisticate_value %><br>
   <p></p>
   <%= f.submit "Show me the goods" %>
 

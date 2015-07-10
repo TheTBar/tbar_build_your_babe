@@ -5,6 +5,19 @@ Warden.test_mode!
 
 describe "babes link", type: :feature do
 
+  context "guest is exploring site" do
+    it "should allow a guest to build a babe" do
+      visit "/"
+      click_link "Build Your Babe"
+      expect(current_path).to eql(spree.new_babe_path)
+      fill_in_babe
+      click_button "Show me the goods"
+      expect(current_path).to eql(spree.my_babes_package_list_path(1))
+      expect(page).to have_content("Our personalized selection for Stella")
+    end
+  end
+
+  
   context "user logs in" do
     let(:user) {FactoryGirl.create(:user)}
 

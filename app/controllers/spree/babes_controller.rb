@@ -2,20 +2,26 @@ module Spree
   class BabesController < Spree::StoreController
 
     def index
+      @babes = Babe.where("spree_user_id = #{spree_current_user.id}")
+    end
 
+    def access_concierge
+      if (spree_current_user && spree_current_user.has_babes?)
+        redirect_to babes_path
+      else
+        redirect_to new_babe_path
+      end
     end
 
     def new
       @babe = Babe.new
-      puts "we have the new babe: #{@babe.inspect}"
     end
 
     def create
       @babe = Spree::Babe.new(babe_params)
       respond_to do |format|
         if @babe.save
-          puts "the babe was saved! id: #{@babe.id}"
-          format.html {redirect_to taxons_package_list_path(@babe)}
+          format.html {redirect_to my_babes_package_list_path(@babe)}
         else
           format.html { render :new }
         end
@@ -27,7 +33,7 @@ module Spree
     private
 
     def babe_params
-      params.require(:babe).permit(:user_id, :body_type_id, :name, :height, :band, :cup, :bottoms, :vixen_value, :romantic_value, :flirt_value, :sophisticate_value)
+      params.require(:babe).permit(:user_id, :body_type_id, :name, :height, :band, :cup, :bottoms, :number_size, :vixen_value, :romantic_value, :flirt_value, :sophisticate_value)
     end
 
 

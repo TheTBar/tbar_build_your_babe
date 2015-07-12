@@ -17,7 +17,7 @@ describe "babes link", type: :feature do
     end
   end
 
-  
+
   context "user logs in" do
     let(:user) {FactoryGirl.create(:user)}
 
@@ -58,6 +58,17 @@ describe "babes link", type: :feature do
         expect(current_path).to eql(spree.babes_path)
       end
 
+      it "should allow the user to create another babe" do
+        visit "/"
+        click_link "Build Your Babe"
+        click_link "Build A New Babe"
+        expect(current_path).to eql(spree.new_babe_path)
+        fill_in_babe
+        fill_in "babe_name", :with => "New Stella"
+        click_button "Show me the goods"
+        expect(Spree::Babe.where("spree_user_id = #{user.id}").count).to eq 3
+        expect(Spree::Babe.last.name).to eq "New Stella"
+      end
 
 
     end

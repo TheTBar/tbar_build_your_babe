@@ -132,16 +132,22 @@ describe Spree::Taxon, :type => :model do
       end
 
       it "should only return sets that have product availability in the babes size" do
-        product1.stock_items.second.set_count_on_hand 1
+
+        #{master, "34a"=>1, "34b"=>0, "34c"=>0, "36a"=>0, "36b"=>0, "36c"=>0}
+        #{master, "small"=>1, "medium"=>0, "large"=>0}
+        product1.stock_items.third.set_count_on_hand 1
         product1b.stock_items.second.set_count_on_hand 1
+        product2.stock_items.fourth.set_count_on_hand 1
         product2b.stock_items.second.set_count_on_hand 1
-        product3.stock_items.second.set_count_on_hand 1
+        product3.stock_items.third.set_count_on_hand 1
         product3b.stock_items.second.set_count_on_hand 1
         # puts "product1: " + product1.product_count_on_hand_hash_by_option_value_name.inspect
         # puts "product1b: " + product1b.product_count_on_hand_hash_by_option_value_name.inspect
+        # puts "product2: " + product2.product_count_on_hand_hash_by_option_value_name.inspect
+        # puts "product2b: " + product2b.product_count_on_hand_hash_by_option_value_name.inspect
         # puts "product3: " + product3.product_count_on_hand_hash_by_option_value_name.inspect
         # puts "product3b: " + product3b.product_count_on_hand_hash_by_option_value_name.inspect
-        my_babe = create(:babe, name: 'my babe 1', band: 34, cup: 'a', bottoms: 'small', vixen_value: 5, flirt_value: 2, sophisticate_value: 3, romantic_value:1)
+        my_babe = create(:babe, name: 'my babe 1', band: 34, cup: 'b', bottoms: 'small', vixen_value: 5, flirt_value: 2, sophisticate_value: 3, romantic_value:1)
         @taxons = Spree::Taxon.get_babes_available_package_list(my_babe)
         expect(@taxons.count).to eq 2
         expect(@taxons[0].name).to eq 'package3'

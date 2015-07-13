@@ -20,7 +20,7 @@ module Spree
     def does_product_have_stock_on_hand_for_option_value?(name)
       self.stock_items.each do |stock_item|
         if !stock_item.variant.is_master?
-          if stock_item.variant.option_values.first.name == name
+          if stock_item.variant.option_values.first.name.downcase == name.downcase
             return stock_item.count_on_hand > 0
           end
         end

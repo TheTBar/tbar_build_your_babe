@@ -7,8 +7,7 @@ describe "babes link", type: :feature do
 
   context "guest is exploring site" do
     it "should allow a guest to build a babe" do
-      visit "/"
-      click_link "Build Your Babe"
+      visit '/build_your_babe'
       expect(current_path).to eql(spree.new_babe_path)
       fill_in_babe
       click_button "Show me the goods"
@@ -53,14 +52,12 @@ describe "babes link", type: :feature do
 
 
       it "should show the babe list page on clicking the build a babe link" do
-        visit "/"
-        click_link "Build Your Babe"
+        visit spree.build_your_babe_path
         expect(current_path).to eql(spree.babes_path)
       end
 
       it "should allow the user to create another babe" do
-        visit "/"
-        click_link "Build Your Babe"
+        visit spree.build_your_babe_path
         click_link "Build A New Babe"
         expect(current_path).to eql(spree.new_babe_path)
         fill_in_babe

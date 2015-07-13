@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_build_your_babe'
-  s.version     = '3.1.2'
+  s.version     = '3.1.3'
   s.summary     = 'The Secret Sauce For TBar'
   s.description = 'You know what it is, you know what you want'
   s.required_ruby_version = '>= 2.0.0'

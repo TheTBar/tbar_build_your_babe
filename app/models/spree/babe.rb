@@ -16,7 +16,7 @@ module Spree
     end
 
     def bra_size
-      "#{self.band}#{self.cup}".downcase
+      "#{self.band}#{self.cup}".upcase
     end
 
     def size_value_for_size_option_type_name(size_type_name)

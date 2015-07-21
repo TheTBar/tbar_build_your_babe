@@ -5,7 +5,51 @@ Warden.test_mode!
 
 describe "babes link", type: :feature do
 
+  before do
+    @city_trait = create(:babe_trait_type, name: 'city')
+    create(:babe_trait_value, name: 'city 1', spree_babe_trait_type_id: @city_trait.id, vixen_value: 5, flirt_value: 4, romantic_value: 3, sophisticate_value: 2)
+    @date_trait = create(:babe_trait_type, name: 'date')
+    create(:babe_trait_value, name: "date 1", spree_babe_trait_type_id: @date_trait.id, vixen_value: 4, flirt_value: 4, romantic_value: 2, sophisticate_value: 1)
+    @shoe_trait = create(:babe_trait_type, name: 'shoe', active: false)
+    create(:babe_trait_value, name: "shoe 1", spree_babe_trait_type_id: @shoe_trait.id, vixen_value: 1, flirt_value: 5, romantic_value: 5, sophisticate_value: 5)
+  end
+
   context "guest is exploring site" do
+    it "should display selections for only the active trait types" do
+      visit '/build_your_babe'
+      expect(page).to have_content("city")
+      expect(page).to have_content("date")
+      expect(page).to_not have_content("shoe")
+      @shoe_trait.active = true
+      @shoe_trait.save
+      visit '/build_your_babe'
+      expect(page).to have_content("city")
+      expect(page).to have_content("date")
+      expect(page).to have_content("shoe")
+      fill_in_babe
+      click_button "Show me the goods"
+      babe = Spree::Babe.last
+      expect(babe.vixen_value).to eq 3.33
+      expect(babe.flirt_value).to eq 4.33
+      expect(babe.romantic_value).to eq 3.33
+      expect(babe.sophisticate_value).to eq 2.67
+      @shoe_trait.active = false
+      @shoe_trait.save
+
+    end
+
+    it "should average the babe_trait_values" do
+      visit '/build_your_babe'
+      expect(current_path).to eql(spree.new_babe_path)
+      fill_in_babe
+      click_button "Show me the goods"
+      babe = Spree::Babe.last
+      expect(babe.vixen_value).to eq 4.5
+      expect(babe.flirt_value).to eq 4
+      expect(babe.romantic_value).to eq 2.5
+      expect(babe.sophisticate_value).to eq 1.5
+    end
+
     it "should allow a guest to build a babe" do
       visit '/build_your_babe'
       expect(current_path).to eql(spree.new_babe_path)
@@ -79,11 +123,6 @@ describe "babes link", type: :feature do
     fill_in "babe_cup", :with => "D"
     fill_in "babe_bottoms", :with => "Medium"
     fill_in "babe_number_size", :with => "3"
-    fill_in "babe_vixen_value", :with => "5"
-    fill_in "babe_romantic_value", :with => "4"
-    fill_in "babe_flirt_value", :with => "3"
-    fill_in "babe_sophisticate_value", :with => "2"
-
   end
 
 end

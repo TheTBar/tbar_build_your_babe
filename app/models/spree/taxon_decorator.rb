@@ -7,7 +7,7 @@ module Spree
       # puts personality[0][1]
       #personality.each {|name,value| puts "#{name} = #{value}" }
 
-      Spree::Taxon.where(is_package_node: true).where(personality[0][0] => personality[0][1]).order("#{personality[0][0]} DESC, #{personality[1][0]} DESC")
+      Spree::Taxon.where(is_package_node: true).where(personality[0][0] => personality[0][1].round(0)).order("#{personality[0][0]} DESC, #{personality[1][0]} DESC")
     end
 
     def self.get_babes_available_package_list(babe)

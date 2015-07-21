@@ -19,4 +19,16 @@ FactoryGirl.define do
     romantic_value 2
   end
 
+  factory :babe_trait_type, :class => 'Spree::BabeTraitType' do
+    name "sumdum trait"
+  end
+
+  factory :babe_trait_value, :class => 'Spree::BabeTraitValue' do
+    name "sumdum value"
+    vixen_value 5
+    flirt_value 4
+    sophisticate_value 3
+    romantic_value 2
+  end
+
 end

@@ -15,10 +15,16 @@ module Spree
 
     def new
       @babe = Babe.new
+      @active_traits = Spree::BabeTraitType.where("active = ?",true)
     end
 
     def create
+      babe_personality_traits = []
+      for i in 1..params[:number_of_active_traits].to_i
+        babe_personality_traits.push(Spree::BabeTraitValue.find(params["babe_trait_#{i}"]))
+      end
       @babe = Spree::Babe.new(babe_params)
+      @babe.set_personality_from_trait_array(babe_personality_traits) if babe_personality_traits.size > 0
       respond_to do |format|
         if @babe.save
           format.html {redirect_to my_babes_package_list_path(@babe)}

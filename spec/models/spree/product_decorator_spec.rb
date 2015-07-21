@@ -52,7 +52,7 @@ describe Spree::Product, :type => :model do
       expect(taxon_after.romantic_value).to eq(2)
 
       parent_taxon = Spree::Taxon.find(taxon_after.parent_id)
-      expect(parent_taxon.vixen_value).to eq nil
+      expect(parent_taxon.vixen_value).to eq 0
 
     end
 

@@ -5,9 +5,9 @@ module Spree
       personality = babe.personality
       # puts personality[0][0]
       # puts personality[0][1]
-      #personality.each {|name,value| puts "#{name} = #{value}" }
-
-      Spree::Taxon.where(is_package_node: true).where(personality[0][0] => personality[0][1].round(0)).order("#{personality[0][0]} DESC, #{personality[1][0]} DESC")
+      # personality.each {|name,value| puts "#{name} = #{value}" }
+      # puts Spree::Taxon.where(is_package_node: true).where("\"spree_taxons\".\"#{personality[0][0]}\" >= #{personality[0][1].floor}").order("#{personality[0][0]} DESC, #{personality[1][0]} DESC").to_sql
+      Spree::Taxon.where(is_package_node: true).where("\"spree_taxons\".\"#{personality[0][0]}\" >= #{personality[0][1].floor}").order("#{personality[0][0]} DESC, #{personality[1][0]} DESC")
     end
 
     def self.get_babes_available_package_list(babe)

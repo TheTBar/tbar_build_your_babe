@@ -33,6 +33,9 @@ require 'spree/testing_support/url_helpers'
 # Requires factories defined in lib/spree_build_your_babe/factories.rb
 require 'spree_build_your_babe/factories'
 
+
+#ActiveRecord::Base.logger = Logger.new(STDOUT) if defined?(ActiveRecord::Base)
+
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 

@@ -24,6 +24,7 @@ module Spree
         babe_personality_traits.push(Spree::BabeTraitValue.find(params["babe_trait_#{i}"]))
       end
       @babe = Spree::Babe.new(babe_params)
+      @babe.spree_user_id = spree_current_user.id if spree_current_user
       @babe.set_personality_from_trait_array(babe_personality_traits) if babe_personality_traits.size > 0
       respond_to do |format|
         if @babe.save
@@ -39,7 +40,7 @@ module Spree
     private
 
     def babe_params
-      params.require(:babe).permit(:user_id, :body_type_id, :name, :height, :band, :cup, :bottoms, :number_size, :vixen_value, :romantic_value, :flirt_value, :sophisticate_value)
+      params.require(:babe).permit(:spree_user_id, :body_type_id, :name, :height, :band, :cup, :bottoms, :number_size, :vixen_value, :romantic_value, :flirt_value, :sophisticate_value)
     end
 
 

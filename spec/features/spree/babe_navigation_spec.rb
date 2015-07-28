@@ -111,8 +111,19 @@ describe "babes link", type: :feature do
         expect(Spree::Babe.last.name).to eq "New Stella"
       end
 
-
     end
+
+    it "should allow a new user to create a babe" do
+      user2 = FactoryGirl.create(:user)
+      login_as(user2, scope: :spree_user)
+      visit spree.build_your_babe_path
+      expect(current_path).to eql(spree.new_babe_path)
+      fill_in_babe
+      fill_in "babe_name", :with => "Improved Stella"
+      click_button "Show me the goods"
+      expect(Spree::Babe.where("spree_user_id = #{user2.id}").count).to eq 1
+    end
+
 
   end
 
